@@ -1,4 +1,6 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
+from django.urls import reverse
 from django.views.generic import FormView, TemplateView, ListView
 from django.views.generic.detail import SingleObjectMixin
 from users.forms import UserRegistrationForm
@@ -12,13 +14,13 @@ class HomeView(TemplateView):
 class RegistrationView(FormView):
     form_class = UserRegistrationForm
     template_name = 'registration/register.html'
-    success_url = '../'
 
-
-class ProfileView(SingleObjectMixin, ListView):
-    model = User
-    template_name = 'registration/profile.html'
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=User.objects.all())
-        return super().get(request, *args, **kwargs)
+    def post(self, request, *args, **kwargs):
+        form = UserRegistrationForm(request.POST)
+        if form.is_valid():
+            new_user = form.save(commit=False)
+            new_user.set_password(form.cleaned_data['password'])
+            new_user.save()
+            return HttpResponseRedirect(reverse('home'))
+        else:
+            return self.form_invalid(form)

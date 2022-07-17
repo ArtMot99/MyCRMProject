@@ -39,6 +39,7 @@ class UserCreationForm(forms.ModelForm):
 
 
 class UserRegistrationForm(forms.ModelForm):
+    username = forms.CharField(error_messages={'required': ''})
     password = forms.CharField(label='Password', widget=PasswordInput)
     password2 = forms.CharField(label='Repeat password', widget=PasswordInput)
 

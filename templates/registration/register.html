@@ -10,9 +10,12 @@
     <div class="w-100 d-inline-block text-center mb-2" style="height: 120px; background-color: #F0F8FF">
             <h1 class="mt-4">Registration Page</h1>
     </div>
-    <form class="form-text" action="" method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Create Account</button>
-    </form>
+    <div class="mx-auto d-block text-center mt-2" style="width: 400px; height: 300px;">
+        <form class="text-center" action="" method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <button type="submit">Create Account</button>
+        </form>
+    </div>
 {% endblock %}

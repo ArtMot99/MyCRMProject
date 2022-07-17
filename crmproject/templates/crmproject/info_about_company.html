@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+
+{% block title %}
+    Main page
+{% endblock %}
+
+
+{% block content %}
+    <div class="w-100 d-inline-block text-center mb-3" style="height: 120px; background-color: #F8F8FF">
+        <h1 class="mt-4">Detail Info</h1>
+    </div>
+
+    {% thumbnail company.photo '250x250' crop='center' as im %}
+        <img class="" style="position: absolute; top: 140px; left: 10px" src="{{ im.url }}" alt="Картинка компании">
+    {% endthumbnail %}
+    <div>
+        <p style="position: relative; left: 300px"><span class="h4">Name of company:</span> <span style="font-size: 20px; color: #800000">{{ company.name_of_company }}</span></p>
+        <p style="position: relative; left: 300px"><span class="h6">Name of diretcor:</span> <span style="font-size: 20px; color: #800000">{{ company.director_name }}</span></p>
+        <p style="position: relative; left: 300px"><span class="h6">Surname of director:</span> <span style="font-size: 20px; color: #800000">{{ company.director_surname }}</span></p>
+        <p style="position: relative; left: 300px"><span class="h6">Create date:</span> <span style="font-size: 20px; color: #800000">{{ company.create_at }}</span></p>
+        <p style="position: relative; left: 300px"><span class="h6">Location:</span> <span style="font-size: 20px; color: #800000">{{ company.location }}</span></p>
+        {% for phone in company.phone_set.all %}
+            <p style="position: relative; left: 300px"><span class="h6">Phone number:</span> <span style="font-size: 20px; color: #800000">{{ phone.phone_number }}</span></p>
+        {% endfor %}
+        {% for email in company.email_set.all %}
+            <p style="position: relative; left: 300px"><span class="h6">Email:</span> <span style="font-size: 20px; color: #800000">{{ email.email_address }}</span></p>
+        {% endfor %}
+        <h4 style="position: relative; left: 550px; top:45px">Description</h4>
+        <p style="position: relative; top:50px; left: 5%; width: 90%">{{ company.about_company }}</p>
+    </div>
+{% endblock %}

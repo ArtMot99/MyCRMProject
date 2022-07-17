@@ -33,6 +33,8 @@ ALLOWED_HOSTS = []
 DEVELOPED_APPS = [
     "debug_toolbar",
     'users',
+    'crmproject',
+    'sorl.thumbnail'
 ]
 
 INSTALLED_APPS = [
@@ -140,5 +142,13 @@ AUTH_USER_MODEL = 'users.User'
 MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = '../../main/'
 LOGOUT_REDIRECT_URL = '/'
+
+# Кеширование для sorl-thumbnail
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
+        'LOCATION': BASE_DIR / 'cache',
+    }
+}

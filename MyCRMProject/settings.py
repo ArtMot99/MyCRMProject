@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 
 DEVELOPED_APPS = [
     "debug_toolbar",
+    'users',
 ]
 
 INSTALLED_APPS = [
@@ -133,3 +134,8 @@ INTERNAL_IPS = [
     "127.0.0.1",
     # ...
 ]
+
+AUTH_USER_MODEL = 'users.User'
+
+MEDIA_ROOT = BASE_DIR / 'media'
+MEDIA_URL = '/media/'

@@ -28,9 +28,13 @@
             <img class="rounded-5" style="position: absolute; top: 189px;" src="{{ im.url }}" alt="Person Photo">
         {% endthumbnail %}
 
-        <a class="btn mb-3 btn-success btn-sm" role="button"
-           style="position: absolute; width: 9rem; left: 725px;"
-           href="{% url 'update_profile' pk=users.id%}">Update</a>
+            <a class="btn mb-3 btn-warning btn-sm" role="button"
+               style="position: relative; width: 9rem; left: 410px;"
+               href="{% url 'update_profile' pk=users.id%}">Update</a>
+
+            <a class="btn mb-3 btn-danger btn-sm" role="button"
+               style="position: relative; width: 9rem; left: 262px; top: 40px;"
+               href="{% url 'delete_profile' pk=users.id%}">Delete</a>
 
     </div>
 

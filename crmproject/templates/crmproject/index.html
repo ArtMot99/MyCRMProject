@@ -8,14 +8,14 @@
 
 {% block content %}
     <div class="w-100 d-inline-block text-center mb-1" style="height: 120px; background-color: #F8F8FF">
-        <h1 class="mt-4">Companys List</h1>
+        <h1 class="mt-4">Companies List</h1>
     </div>
     {% include 'includes/navbar.html' %}
 
     {% for company in companys %}
         <div class="list-group">
             <a href="{% url 'info' pk=company.id %}"
-               style="height: 80px; background-color: #F5F5F5; font-size: 24px;"
+               style="height: 70px; background-color: #F5F5F5; font-size: 24px;"
                class="list-group-item shadow m-1 text-center text-uppercase">
                 <p>"{{ company.name_of_company }}"</p>
             </a>

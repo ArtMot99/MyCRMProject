@@ -3,7 +3,7 @@
 {% load thumbnail %}
 
 {% block title %}
-    Main page
+    Detail {{ company.name_of_company }}
 {% endblock %}
 
 
@@ -14,7 +14,7 @@
     {% include 'includes/navbar.html' %}
 
     {% thumbnail company.photo '250x250' crop='center' as im %}
-        <img class="" style="position: absolute; top: 195px; left: 10px" src="{{ im.url }}" alt="Картинка компании">
+        <img class="" style="position: absolute; top: 195px; left: 10px" src="{{ im.url }}" alt="Company photo">
     {% endthumbnail %}
     <div>
         <p style="position: relative; left: 300px"><span class="h4">Name of company:</span> <span style="font-size: 20px; color: #800000">{{ company.name_of_company }}</span></p>
@@ -28,7 +28,7 @@
         {% for email in company.email_set.all %}
             <p style="position: relative; left: 300px"><span class="h6">Email:</span> <span style="font-size: 20px; color: #800000">{{ email.email_address }}</span></p>
         {% endfor %}
-        <h4 style="position: relative; left: 550px; top:45px">Description</h4>
-        <p style="position: relative; top:50px; left: 5%; width: 90%">{{ company.about_company }}</p>
+        <h4 class="text-center">Description</h4>
+        <p class="ms-2">{{ company.about_company }}</p>
     </div>
 {% endblock %}

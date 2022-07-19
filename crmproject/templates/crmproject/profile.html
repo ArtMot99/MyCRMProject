@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% load thumbnail %}
+
+{% block title %}
+    Profile
+{% endblock %}
+
+
+{% block content %}
+    <div class="w-100 d-inline-block text-center mb-1" style="height: 120px; background-color: #F8F8FF">
+        <h1 class="mt-4">Profile <span class="text-success">{{ user }}</span></h1>
+    </div>
+    {% include 'includes/navbar.html' %}
+
+    <div class="d-inline-block rounded-5 mx-auto d-block" style="width: 50%; height: 430px; background-color: #F5F5F5">
+        <div style="position: relative; left: 350px; margin-top: 10px; font-size: 18px">
+            <p><span class="h6">First name:</span> <span style="color: #808000">{{ users.first_name }}</span></p>
+            <p><span class="h6">Last name:</span> <span style="color: #808000">{{ users.last_name }}</span></p>
+            <p><span class="h6">Username:</span> <span style="color: #808000">{{ users.username }}</span></p>
+            <p><span class="h6">Birthday:</span> <span style="color: #808000">{{ users.birthday }}</span></p>
+            <p><span class="h6">Location:</span> <span style="color: #808000">{{ users.location }}</span></p>
+            <p><span class="h6">Email:</span> <span style="color: #808000">{{ users.email }}</span></p>
+            <p><span class="h6">Staff:</span> <span style="color: #808000">{{ users.is_staff }}</span></p>
+            <p><span class="h6">Date joined:</span> <span style="color: #808000">{{ users.date_joined }}</span></p>
+        </div>
+        {% thumbnail users.photo '330x430' crop='center' as im %}
+            <img class="rounded-5" style="position: absolute; top: 189px;" src="{{ im.url }}" alt="Person Photo">
+        {% endthumbnail %}
+
+        <a class="btn mb-3 btn-success btn-sm" role="button"
+           style="position: absolute; width: 9rem; left: 725px;"
+           href="{% url 'update_profile' pk=users.id%}">Update</a>
+
+    </div>
+
+    {% include 'includes/paginate.html' %}
+{% endblock %}

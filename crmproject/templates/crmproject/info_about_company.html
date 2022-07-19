@@ -16,6 +16,7 @@
     {% thumbnail company.photo '250x250' crop='center' as im %}
         <img class="" style="position: absolute; top: 195px; left: 10px" src="{{ im.url }}" alt="Company photo">
     {% endthumbnail %}
+
     <div>
         <p style="position: relative; left: 300px"><span class="h4">Name of company:</span> <span style="font-size: 20px; color: #800000">{{ company.name_of_company }}</span></p>
         <p style="position: relative; left: 300px"><span class="h6">Name of diretcor:</span> <span style="font-size: 20px; color: #800000">{{ company.director_name }}</span></p>
@@ -28,7 +29,21 @@
         {% for email in company.email_set.all %}
             <p style="position: relative; left: 300px"><span class="h6">Email:</span> <span style="font-size: 20px; color: #800000">{{ email.email_address }}</span></p>
         {% endfor %}
-        <h4 class="text-center">Description</h4>
-        <p class="ms-2">{{ company.about_company }}</p>
+        {% if company.update_at %}
+            <p style="position: relative; left: 300px"><span class="h6">Edited:</span> <span style="font-size: 20px; color: dimgrey">{{ company.update_at }}</span></p>
+        {% endif %}
+
+        {% if user.is_authenticated and user == company.user%}
+            <a class="btn mb-3 btn-warning btn-sm" role="button"
+               style="position: relative; width: 9rem;left: 300px;"
+               href="{% url 'update_company' pk=company.id%}">Update</a>
+
+            <a class="btn mb-3 btn-danger btn-sm" role="button"
+               style="position: relative; width: 9rem;left: 300px;"
+               href="{% url 'delete_company' pk=company.id%}">Delete</a>
+        {% endif %}
+
+        <h3 class="text-center">Description</h3>
+        <p>{{ company.about_company | safe }}</p>
     </div>
 {% endblock %}

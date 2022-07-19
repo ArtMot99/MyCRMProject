@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Update company
+{% endblock %}
+
+
+{% block content %}
+    <div class="w-100 d-inline-block text-center mb-1" style="height: 120px; background-color: #F8F8FF">
+        <h1 class="mt-4">Update <span class="text-success">{{ company.name_of_company }}</span> company</h1>
+    </div>
+
+    {% include 'includes/navbar.html' %}
+
+    <div class="mx-auto d-block text-center">
+        <form enctype="multipart/form-data" class="form-text" action="" method="post">
+            {% csrf_token %}
+            {{ form.media }}
+            {{ form.as_p }}
+        <button class="btn btn-success" type="submit" value="Confirm">Confirm</button>
+        </form>
+    </div>
+{% endblock %}

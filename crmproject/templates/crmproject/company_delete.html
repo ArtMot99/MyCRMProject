@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title  %}Delete profile{% endblock %}
+
+{% block content %}
+    <div class="w-100 d-inline-block text-center mb-1" style="height: 120px; background-color: #F8F8FF">
+        <h1 class="mt-4">Delete company</h1>
+    </div>
+
+    {% include 'includes/navbar.html' %}
+
+    <div class="text-center">
+        <form method="post">
+            {% csrf_token %}
+            <h4>Are you sure you want to delete company: "<span class="text-danger">{{ company.name_of_company }}</span>"?</h4><br>
+            <input class="btn mb-3 btn-success btn-sm" role="button" style="width: 7rem" type="submit" value="Confirm"><br>
+            <a class="btn mb-3 btn-secondary btn-sm" role="button" style="width: 7rem" href="{% url 'info' pk=company.id %}">Back</a>
+        </form>
+    </div>
+{% endblock %}

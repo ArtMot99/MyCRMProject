@@ -1,10 +1,7 @@
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
 from django.urls import reverse
-from django.views.generic import FormView, TemplateView, ListView
-from django.views.generic.detail import SingleObjectMixin
+from django.views.generic import FormView, TemplateView
 from users.forms import UserRegistrationForm
-from users.models import User
 
 
 class HomeView(TemplateView):

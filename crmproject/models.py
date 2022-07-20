@@ -46,3 +46,22 @@ class Email(models.Model):
 
     def __str__(self):
         return f'Email: {self.email_address} | Company: {self.company}'
+
+
+class Project(models.Model):
+    """
+    Model for Company Projects.
+    """
+    name = models.CharField(max_length=30, blank=False, null=False)
+    description = RichTextField(max_length=500, blank=False, null=False)
+    start = models.DateField(blank=False, null=False)
+    end = models.DateField(blank=False, null=False)
+    status = models.BooleanField(default=False)
+    price = models.PositiveIntegerField()
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+
+    class Meta:
+        ordering = ('name',)
+
+    def __str__(self):
+        return f'Project: {self.name} | Company: {self.company}'

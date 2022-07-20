@@ -1,0 +1,15 @@
+<div class="mx-auto d-block text-center">
+    <form enctype="multipart/form-data" class="form-text" action="" method="post">
+        {% csrf_token %}
+        <h4 class="text-dark text-opacity-75">Details</h4>
+        {{ form.media }}
+        {{ form.as_p }}
+        <h4 class="text-dark text-opacity-75">Phone numbers</h4>
+        {{ phone_form.management_form.as_p }}
+        {{ phone_form.as_p }}
+        <h4 class="text-dark text-opacity-75">Emails</h4>
+        {{ email_form.management_form.as_p }}
+        {{ email_form.as_p }}
+        <button class="btn btn-success" type="submit" value="Confirm">Confirm</button>
+    </form>
+</div>

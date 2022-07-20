@@ -1,12 +1,12 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2" style="background-image: var(--bs-gradient);">
     <div class="collapse navbar-collapse" id="navbarNav" style="">
         <ul class="navbar-nav" style="position: relative; left: 470px">
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'profile' pk=user.id %}">My account</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{% url 'index' %}">Company list</a>
-          </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'profile' pk=user.id %}">My account</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'index' %}">Company list</a>
+            </li>
             {% if user.is_authenticated %}
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'logout' %}">Logout (<span class="text-success">{{ user }}</span>)</a>

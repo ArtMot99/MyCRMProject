@@ -12,6 +12,12 @@
     </div>
     {% include 'includes/navbar.html' %}
 
+    {% if user.is_staff %}
+        <a class="btn mb-3 btn-info btn-sm" role="button"
+           style="position: relative; left: 580px;"
+           href="{% url 'create_company' %}">Add company</a>
+    {% endif %}
+
     {% for company in companys %}
         <div class="list-group">
             <a href="{% url 'info' pk=company.id %}"

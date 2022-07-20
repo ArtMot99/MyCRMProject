@@ -10,13 +10,8 @@
     <div class="w-100 d-inline-block text-center mb-1" style="height: 120px; background-color: #F8F8FF">
         <h1 class="mt-4">Companies List</h1>
     </div>
-    {% include 'includes/navbar.html' %}
 
-    {% if user.is_staff %}
-        <a class="btn mb-3 btn-info btn-sm" role="button"
-           style="position: relative; left: 580px;"
-           href="{% url 'create_company' %}">Add company</a>
-    {% endif %}
+    {% include 'includes/finaly_navbar.html' %}
 
     {% for company in companys %}
         <div class="list-group">

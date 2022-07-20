@@ -10,14 +10,15 @@ profile_urls = [
 
 
 company_urls = [
-    path('', views.InfoAboutCompany.as_view(), name='info'),
-    path('update/', views.UpdateCompany.as_view(), name='update_company'),
+    path('', views.InfoAboutCompanyView.as_view(), name='info'),
+    path('update/', views.UpdateCompanyView.as_view(), name='update_company'),
     path('delete/', views.DeleteCompanyView.as_view(), name='delete_company'),
 ]
 
 
 urlpatterns = [
     path('', views.AllCompanyView.as_view(), name='index'),
-    path('info/<int:pk>', include(company_urls)),
-    path('profile/<int:pk>', include(profile_urls)),
+    path('info/<int:pk>/', include(company_urls)),
+    path('profile/<int:pk>/', include(profile_urls)),
+    path('create_company/', views.CreateCompanyView.as_view(), name='create_company'),
 ]

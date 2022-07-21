@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title  %}Delete project{% endblock %}
+
+{% block content %}
+    {% include 'includes/header.html' %}
+
+    {% include 'includes/finaly_navbar.html' %}
+
+    <div class="text-center">
+        <form method="post">
+            {% csrf_token %}
+            <h4>Are you sure you want to delete project: "<span class="text-danger">{{ project.name }}</span>"?</h4><br>
+            <input class="btn mb-3 btn-success btn-sm" role="button" style="width: 7rem" type="submit" value="Confirm"><br>
+            <a class="btn mb-3 btn-secondary btn-sm" role="button" style="width: 7rem" href="{% url 'about_project' pk=project.id %}">Back</a>
+        </form>
+    </div>
+{% endblock %}

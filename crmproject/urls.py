@@ -13,6 +13,7 @@ company_urls = [
     path('', views.InfoAboutCompanyView.as_view(), name='info'),
     path('update/', views.UpdateCompanyView.as_view(), name='update_company'),
     path('delete/', views.DeleteCompanyView.as_view(), name='delete_company'),
+    path('create_project/', views.CreateProjectView.as_view(), name='create_project'),
 ]
 
 

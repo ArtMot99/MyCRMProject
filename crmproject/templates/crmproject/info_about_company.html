@@ -8,9 +8,8 @@
 
 
 {% block content %}
-    <div class="w-100 d-inline-block text-center mb-1" style="height: 120px; background-color: #F8F8FF">
-        <h1 class="mt-4">Detail Info</h1>
-    </div>
+    {% include 'includes/header.html' %}
+
     {% include 'includes/finaly_navbar.html' %}
 
     {% thumbnail company.photo '250x250' crop='center' as im %}

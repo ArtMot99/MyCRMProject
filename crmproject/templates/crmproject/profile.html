@@ -8,9 +8,8 @@
 
 
 {% block content %}
-    <div class="w-100 d-inline-block text-center mb-1" style="height: 120px; background-color: #F8F8FF">
-        <h1 class="mt-4">Profile <span class="text-success">{{ user }}</span></h1>
-    </div>
+    {% include 'includes/header.html' %}
+
     {% include 'includes/finaly_navbar.html' %}
 
     <div class="d-inline-block rounded-5 mx-auto d-block" style="width: 50%; height: 430px; background-color: #F5F5F5">

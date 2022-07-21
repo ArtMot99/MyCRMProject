@@ -19,6 +19,8 @@ company_urls = [
 
 projects_urls = [
     path('', views.ProjectInfoView.as_view(), name='about_project'),
+    path('update/', views.UpdateProjectView.as_view(), name='update_project'),
+    path('delete/', views.DeleteProjectView.as_view(), name='delete_project'),
 ]
 
 

@@ -16,9 +16,15 @@ company_urls = [
 ]
 
 
+projects_urls = [
+    path('', views.ProjectInfoView.as_view(), name='about_project'),
+]
+
+
 urlpatterns = [
     path('', views.AllCompanyView.as_view(), name='index'),
     path('info/<int:pk>/', include(company_urls)),
     path('profile/<int:pk>/', include(profile_urls)),
+    path('project/<int:pk>/', include(projects_urls)),
     path('create_company/', views.CreateCompanyView.as_view(), name='create_company'),
 ]

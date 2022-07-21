@@ -56,7 +56,7 @@ class Project(models.Model):
     description = RichTextField(max_length=500, blank=False, null=False)
     date_start = models.DateField(blank=False, null=False)
     date_end = models.DateField(blank=False, null=False)
-    status = models.BooleanField(default=False)
+    status = models.BooleanField(default=False, verbose_name='Project readiness')
     price = models.PositiveIntegerField()
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
 

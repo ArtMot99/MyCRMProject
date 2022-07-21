@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title  %}Project info{% endblock %}
+
+{% block content %}
+    <div class="w-100 d-inline-block text-center mb-1" style="height: 120px; background-color: #F8F8FF">
+        <h1 class="mt-4">Info about {{ project.name }}</h1>
+    </div>
+
+    {% include 'includes/finaly_navbar.html' %}
+
+    <div class="text-center">
+        <p><span style="color: dimgrey; font-size: 15px;">Project name:</span> <span style="font-size: 17px;">{{ project.name }}</span></p>
+        {% if user.is_staff %}
+            <p><span style="color: dimgrey;">Budget:</span><br> <span style="font-size: 17px;">{{ project.price }} $</span></p>
+        {% endif %}
+        {% if project.status %}
+            <p><span style="color: dimgrey;">Status:</span> <span class="text-success" style="font-size: 17px;">Completed</span></p>
+        {% else %}
+            <p><span style="color: dimgrey;">Status:</span> <span class="text-warning" style="font-size: 17px;">The project is under development</span></p>
+        {% endif %}
+        <p><span style="color: dimgrey;">Description:</span><br> <span style="font-size: 17px;">{{ project.description|safe }}</span></p>
+        <p><span style="color: dimgrey;">Start date:</span> <span style="font-size: 17px;">{{ project.date_start }}</span></p>
+        <p><span style="color: dimgrey;">End date:</span> <span style="font-size: 17px;">{{ project.date_end }}</span></p>
+    </div>
+
+{% endblock %}

@@ -32,7 +32,7 @@
             <p style="position: relative; left: 300px"><span class="h6">Edited:</span> <span style="font-size: 20px; color: dimgrey">{{ company.update_at }}</span></p>
         {% endif %}
 
-        {% if user.is_authenticated and user == company.user%}
+        {% if user.is_staff and user == company.user%}
             <a class="btn mb-3 btn-warning btn-sm" role="button"
                style="position: relative; width: 9rem;left: 300px;"
                href="{% url 'update_company' pk=company.id%}">Update</a>
@@ -46,20 +46,33 @@
         <p>{{ company.about_company | safe }}</p>
     </div>
 
-    {% if company.project_set.all %}
     <h3 class="text-center mb-3">Company's projects</h3>
+    {% if company.project_set.all %}
+        {% if user.is_staff and user == company.user%}
+            <a class="btn mb-3 btn-info btn-sm" role="button"
+           style="position: relative; width: 9rem; left: 570px;"
+           href="{% url 'create_project' pk=company.id%}">Add project</a>
+        {% endif %}
 
-    {% for project in company.project_set.all %}
-            <div class="list-group mb-2">
-                <a href="{% url 'about_project' pk=project.id %}"
-                   style="height: 120px; background-color: #FFFFF8; font-size: 16px;"
-                   class="list-group-item shadow m-1 text-center">
-                    <p><span class="text-decoration-underline">Project name:</span> <span class="text-uppercase">{{ project.name }}</span></p>
-                    <p><span class="text-decoration-underline">Start date:</span> <span style="font-size: 14px;">{{ project.date_start|date:"SHORT_DATE_FORMAT" }}</span></p>
-                    <p><span class="text-decoration-underline">End date:</span> <span style="font-size: 14px;">{{ project.date_end|date:"SHORT_DATE_FORMAT" }}</span></p>
-                </a>
-            </div>
-    {% endfor %}
+        {% for project in company.project_set.all %}
+                <div class="list-group mb-2">
+                    <a href="{% url 'about_project' pk=project.id %}"
+                       style="height: 120px; background-color: #FFFFF8; font-size: 16px;"
+                       class="list-group-item shadow m-1 text-center">
+                        <p><span class="text-decoration-underline">Project name:</span> <span class="text-uppercase">{{ project.name }}</span></p>
+                        <p><span class="text-decoration-underline">Start date:</span> <span style="font-size: 14px;">{{ project.date_start|date:"SHORT_DATE_FORMAT" }}</span></p>
+                        <p><span class="text-decoration-underline">End date:</span> <span style="font-size: 14px;">{{ project.date_end|date:"SHORT_DATE_FORMAT" }}</span></p>
+                    </a>
+                </div>
+        {% endfor %}
+    {% else %}
+        {% if user.is_staff and user == company.user%}
+            <a class="btn mb-3 btn-info btn-sm" role="button"
+           style="position: relative; width: 9rem; left: 570px;"
+           href="{% url 'create_project' pk=company.id%}">Add project</a>
+        {% endif %}
+
+        <p class="text-center">This company has not completed any projects yet and has no projects in development</p>
     {% endif %}
 
 {% endblock %}

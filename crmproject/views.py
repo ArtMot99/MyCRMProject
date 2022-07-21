@@ -1,11 +1,11 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
 from django.views.generic.detail import SingleObjectMixin
 
-from crmproject.forms import FormUpdateProfile, FormUpdateCompany, CreateCompanyForm, CompanyPhoneFormSet, \
-    CompanyEmailFormSet, CompanyPhoneForUpdate, CompanyEmailForUpdate
+from crmproject.forms import FormUpdateProfile, CreateCompanyForm, CompanyPhoneFormSet, \
+    CompanyEmailFormSet, CompanyPhoneForUpdate, CompanyEmailForUpdate, UpdateCompanyForm, CreateProjectForm
 from crmproject.models import Company, Project
 from users.models import User
 
@@ -126,7 +126,7 @@ class UpdateCompanyView(UserPassesTestMixin, UpdateView):
     """
     template_name = 'crmproject/update_company.html'
     model = Company
-    form_class = FormUpdateCompany
+    form_class = UpdateCompanyForm
     success_url = reverse_lazy('index')
 
     def test_func(self):
@@ -190,3 +190,18 @@ class ProjectInfoView(LoginRequiredMixin, SingleObjectMixin, ListView):
         return context
 
 
+class CreateProjectView(LoginRequiredMixin, CreateView):
+    """
+    View for Create info about project
+    """
+    model = Project
+    form_class = CreateProjectForm
+    template_name = 'crmproject/create_project.html'
+    success_url = reverse_lazy('index')
+
+    def form_valid(self, form):
+        f = form.save(commit=False)
+        company = get_object_or_404(Company, pk=self.kwargs['pk'])
+        f.company = company
+        f.save()
+        return super().form_valid(form)

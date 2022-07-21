@@ -59,6 +59,7 @@ class Project(models.Model):
     status = models.BooleanField(default=False, verbose_name='Project readiness')
     price = models.PositiveIntegerField()
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    user = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.CASCADE)
 
     class Meta:
         ordering = ('name',)

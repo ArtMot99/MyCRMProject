@@ -5,7 +5,8 @@ from django.views.generic import ListView, UpdateView, DeleteView, CreateView
 from django.views.generic.detail import SingleObjectMixin
 
 from crmproject.forms import FormUpdateProfile, CreateCompanyForm, CompanyPhoneFormSet, \
-    CompanyEmailFormSet, CompanyPhoneForUpdate, CompanyEmailForUpdate, UpdateCompanyForm, CreateProjectForm
+    CompanyEmailFormSet, CompanyPhoneForUpdate, CompanyEmailForUpdate, UpdateCompanyForm, CreateProjectForm, \
+    UpdateProjectForm
 from crmproject.models import Company, Project
 from users.models import User
 
@@ -120,6 +121,7 @@ class CreateCompanyView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
+#TODO bad reverse (need reverse to 'info' pk)
 class UpdateCompanyView(UserPassesTestMixin, UpdateView):
     """
     View for update company information
@@ -164,7 +166,7 @@ class UpdateCompanyView(UserPassesTestMixin, UpdateView):
         return super().form_valid(form)
 
 
-class DeleteCompanyView(DeleteView):
+class DeleteCompanyView(LoginRequiredMixin, DeleteView):
     """
     View for delete company
     """
@@ -190,6 +192,7 @@ class ProjectInfoView(LoginRequiredMixin, SingleObjectMixin, ListView):
         return context
 
 
+#TODO bad reverse (need reverse to 'info' pk)
 class CreateProjectView(LoginRequiredMixin, CreateView):
     """
     View for Create info about project
@@ -201,7 +204,29 @@ class CreateProjectView(LoginRequiredMixin, CreateView):
 
     def form_valid(self, form):
         f = form.save(commit=False)
+        f.user = self.request.user
         company = get_object_or_404(Company, pk=self.kwargs['pk'])
         f.company = company
         f.save()
         return super().form_valid(form)
+
+
+#TODO bad reverse (need reverse to 'info' pk)
+class UpdateProjectView(LoginRequiredMixin, UpdateView):
+    """
+    View for Update info about project
+    """
+    model = Project
+    form_class = UpdateProjectForm
+    template_name = 'crmproject/update_project.html'
+    success_url = reverse_lazy('index')
+
+
+#TODO bad reverse (need reverse to 'info' pk)
+class DeleteProjectView(LoginRequiredMixin, DeleteView):
+    """
+    View for delete project information
+    """
+    model = Project
+    template_name = 'crmproject/project_delete.html'
+    success_url = '../../../'

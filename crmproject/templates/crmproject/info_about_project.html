@@ -22,4 +22,14 @@
         <p><span style="color: dimgrey;">End date:</span> <span style="font-size: 17px;">{{ project.date_end }}</span></p>
     </div>
 
+    {% if user.is_staff and user == project.user%}
+    <a class="btn mb-3 btn-warning btn-sm" role="button"
+       style="position: relative; width: 9rem; left: 493px;"
+       href="{% url 'update_project' pk=project.id%}">Update project</a>
+
+    <a class="btn mb-3 btn-danger btn-sm" role="button"
+       style="position: relative; width: 9rem; left: 493px;"
+       href="{% url 'delete_project' pk=project.id%}">Delete project</a>
+    {% endif %}
+
 {% endblock %}

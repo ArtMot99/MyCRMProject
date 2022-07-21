@@ -10,7 +10,7 @@
     <div class="text-center">
         <p><span style="color: dimgrey; font-size: 15px;">Project name:</span> <span style="font-size: 17px;">{{ project.name }}</span></p>
         {% if user.is_staff %}
-            <p><span style="color: dimgrey;">Budget:</span><br> <span style="font-size: 17px;">{{ project.price }} $</span></p>
+            <p><span style="color: dimgrey;">Budget:</span><br> <span class="text-decoration-underline" style="font-size: 17px;">{{ project.price }} $</span></p>
         {% endif %}
         {% if project.status %}
             <p><span style="color: dimgrey;">Status:</span> <span class="text-success" style="font-size: 17px;">Completed</span></p>

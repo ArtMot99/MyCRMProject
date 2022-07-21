@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
 
-from crmproject.models import Company, Phone, Email
+from crmproject.models import Company, Phone, Email, Project
 from users.models import User
 
 
@@ -82,7 +82,7 @@ CompanyEmailForUpdate = inlineformset_factory(Company, Email,
                                               extra=2)
 
 
-class FormUpdateCompany(forms.ModelForm):
+class UpdateCompanyForm(forms.ModelForm):
     """
     Form for Update company info
     """
@@ -92,3 +92,13 @@ class FormUpdateCompany(forms.ModelForm):
         model = Company
         fields = ['name_of_company', 'director_name', 'director_surname',
                   'location', 'about_company', 'photo', 'update_at']
+
+
+class CreateProjectForm(forms.ModelForm):
+    """
+    Form for Create project info
+    """
+
+    class Meta:
+        model = Project
+        fields = ['name', 'date_start', 'date_end', 'price', 'description']

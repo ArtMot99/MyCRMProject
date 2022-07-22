@@ -1,5 +1,6 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-from django.shortcuts import render, get_object_or_404
+# from django.core.paginator import Paginator
+from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
 from django.views.generic.detail import SingleObjectMixin
@@ -63,12 +64,14 @@ class AllCompanyView(LoginRequiredMixin, ListView):
     paginate_by = 6
 
 
+# TODO Don't work pagination(show all queryset objects)
 class InfoAboutCompanyView(LoginRequiredMixin, SingleObjectMixin, ListView):
     """
     View for view detailed information about the company
     """
     model = Company
     template_name = 'crmproject/info_about_company.html'
+    # paginate_by = 3
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object(queryset=Company.objects.all())
@@ -78,6 +81,9 @@ class InfoAboutCompanyView(LoginRequiredMixin, SingleObjectMixin, ListView):
         context = super().get_context_data(**kwargs)
         context['company'] = self.object
         return context
+
+    # def get_queryset(self):
+    #     return self.object.project_set.all()
 
 
 class CreateCompanyView(LoginRequiredMixin, CreateView):
@@ -121,7 +127,6 @@ class CreateCompanyView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-#TODO bad reverse (need reverse to 'info' pk)
 class UpdateCompanyView(UserPassesTestMixin, UpdateView):
     """
     View for update company information
@@ -129,7 +134,9 @@ class UpdateCompanyView(UserPassesTestMixin, UpdateView):
     template_name = 'crmproject/update_company.html'
     model = Company
     form_class = UpdateCompanyForm
-    success_url = reverse_lazy('index')
+
+    def get_success_url(self):
+        return reverse_lazy('info', kwargs={'pk': self.kwargs['pk']})
 
     def test_func(self):
         if self.request.user != self.get_object(queryset=Company.objects.all()).user:
@@ -192,7 +199,6 @@ class ProjectInfoView(LoginRequiredMixin, SingleObjectMixin, ListView):
         return context
 
 
-#TODO bad reverse (need reverse to 'info' pk)
 class CreateProjectView(LoginRequiredMixin, CreateView):
     """
     View for Create info about project
@@ -200,7 +206,9 @@ class CreateProjectView(LoginRequiredMixin, CreateView):
     model = Project
     form_class = CreateProjectForm
     template_name = 'crmproject/create_project.html'
-    success_url = reverse_lazy('index')
+
+    def get_success_url(self):
+        return reverse_lazy('info', kwargs={'pk': self.kwargs['pk']})
 
     def form_valid(self, form):
         f = form.save(commit=False)
@@ -211,7 +219,6 @@ class CreateProjectView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-#TODO bad reverse (need reverse to 'info' pk)
 class UpdateProjectView(LoginRequiredMixin, UpdateView):
     """
     View for Update info about project
@@ -219,14 +226,18 @@ class UpdateProjectView(LoginRequiredMixin, UpdateView):
     model = Project
     form_class = UpdateProjectForm
     template_name = 'crmproject/update_project.html'
-    success_url = reverse_lazy('index')
+
+    def get_success_url(self):
+        return reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
 
 
-#TODO bad reverse (need reverse to 'info' pk)
+# TODO problem with success_url method(need redirect to project:pk)
 class DeleteProjectView(LoginRequiredMixin, DeleteView):
     """
     View for delete project information
     """
     model = Project
     template_name = 'crmproject/project_delete.html'
-    success_url = '../../../'
+
+    def get_success_url(self):
+        return reverse_lazy('index')

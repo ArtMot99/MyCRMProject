@@ -52,11 +52,16 @@ class Project(models.Model):
     """
     Model for Company Projects.
     """
+    status_fields = (
+        ('1', 'Completed'),
+        ('2', 'Project under development'),
+        ('3', 'Overdue')
+    )
     name = models.CharField(max_length=30, blank=False, null=False)
     description = RichTextField(max_length=500, blank=False, null=False)
     date_start = models.DateField(blank=False, null=False)
     date_end = models.DateField(blank=False, null=False)
-    status = models.BooleanField(default=False, verbose_name='Project readiness')
+    status = models.CharField(max_length=1, choices=status_fields)
     price = models.PositiveIntegerField()
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     user = models.ForeignKey(get_user_model(), null=True, blank=True, on_delete=models.CASCADE)

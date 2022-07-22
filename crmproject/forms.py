@@ -101,7 +101,7 @@ class CreateProjectForm(forms.ModelForm):
 
     class Meta:
         model = Project
-        fields = ['name', 'date_start', 'date_end', 'price', 'description']
+        fields = ['name', 'date_start', 'date_end', 'price', 'status', 'description']
 
 
 class UpdateProjectForm(forms.ModelForm):

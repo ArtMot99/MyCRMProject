@@ -12,10 +12,12 @@
         {% if user.is_staff %}
             <p><span style="color: dimgrey;">Budget:</span><br> <span class="text-decoration-underline" style="font-size: 17px;">{{ project.price }} $</span></p>
         {% endif %}
-        {% if project.status %}
+        {% if project.status == '1' %}
             <p><span style="color: dimgrey;">Status:</span> <span class="text-success" style="font-size: 17px;">Completed</span></p>
+        {% elif project.status == '2' %}
+            <p><span style="color: dimgrey;">Status:</span> <span class="text-warning" style="font-size: 17px;">Project under development</span></p>
         {% else %}
-            <p><span style="color: dimgrey;">Status:</span> <span class="text-warning" style="font-size: 17px;">The project is under development</span></p>
+            <p><span style="color: dimgrey;">Status:</span> <span class="text-danger" style="font-size: 17px;">Overdue</span></p>
         {% endif %}
         <p><span style="color: dimgrey;">Description:</span><br> <span style="font-size: 17px;">{{ project.description|safe }}</span></p>
         <p><span style="color: dimgrey;">Start date:</span> <span style="font-size: 17px;">{{ project.date_start }}</span></p>

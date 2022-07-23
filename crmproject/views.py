@@ -7,8 +7,8 @@ from django.views.generic.detail import SingleObjectMixin
 
 from crmproject.forms import FormUpdateProfile, CreateCompanyForm, CompanyPhoneFormSet, \
     CompanyEmailFormSet, CompanyPhoneForUpdate, CompanyEmailForUpdate, UpdateCompanyForm, CreateProjectForm, \
-    UpdateProjectForm
-from crmproject.models import Company, Project
+    UpdateProjectForm, CreateInteractionForm
+from crmproject.models import Company, Project, Interaction
 from users.models import User
 
 
@@ -241,3 +241,40 @@ class DeleteProjectView(LoginRequiredMixin, DeleteView):
 
     def get_success_url(self):
         return reverse_lazy('index')
+
+
+class AboutInteractionView(LoginRequiredMixin, SingleObjectMixin, ListView):
+    """
+    View for view detailed information about interaction
+    """
+    model = Interaction
+    template_name = 'crmproject/info_about_interaction.html'
+
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object(queryset=Interaction.objects.all())
+        return super().get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['interaction'] = self.object
+        return context
+
+
+class CreateInteractionView(LoginRequiredMixin, CreateView):
+    """
+    View for Create interaction on project
+    """
+    model = Interaction
+    form_class = CreateInteractionForm
+    template_name = 'crmproject/create_interaction.html'
+
+    def get_success_url(self):
+        return reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
+
+    def form_valid(self, form):
+        f = form.save(commit=False)
+        f.manager = self.request.user
+        project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        f.project = project
+        f.save()
+        return super().form_valid(form)

@@ -19,6 +19,7 @@ company_urls = [
 
 projects_urls = [
     path('', views.ProjectInfoView.as_view(), name='about_project'),
+    path('create_interaction/', views.CreateInteractionView.as_view(), name='create_interaction'),
     path('update/', views.UpdateProjectView.as_view(), name='update_project'),
     path('delete/', views.DeleteProjectView.as_view(), name='delete_project'),
 ]
@@ -30,4 +31,5 @@ urlpatterns = [
     path('profile/<int:pk>/', include(profile_urls)),
     path('project/<int:pk>/', include(projects_urls)),
     path('create_company/', views.CreateCompanyView.as_view(), name='create_company'),
+    path('interaction/<int:pk>/', views.AboutInteractionView.as_view(), name='about_interaction'),
 ]

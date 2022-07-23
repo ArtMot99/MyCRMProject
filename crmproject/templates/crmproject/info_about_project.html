@@ -34,4 +34,28 @@
        href="{% url 'delete_project' pk=project.id%}">Delete project</a>
     {% endif %}
 
+    {% if user.is_staff %}
+    <div>
+        <p class="text-center h3 mt-4">Project feedback</p>
+    </div>
+        <a class="btn mb-3 btn-info btn-sm" role="button"
+           style="position: relative; width: 9rem; left: 570px;"
+           href="{% url 'create_interaction' pk=project.id%}">Add feedback</a>
+
+    {% if not project.interaction_set.all %}
+        <p class="text-center">The company currently has no reviews.</p>
+    {% else %}
+        {% for interaction in  project.interaction_set.all %}
+            <div class="list-group mb-2">
+                <a href="{% url 'about_interaction' pk=interaction.id %}" style="background-color: #F7F9FF;"
+                   class="list-group-item shadow m-1 text-center">
+                    {% include 'includes/communication method.html' %}
+                    {% include 'includes/rating.html' %}
+                    <p><span style="">{{ interaction.description|safe }}</span></p>
+                </a>
+            </div>
+        {% endfor %}
+    {% endif %}
+    {% endif %}
+
 {% endblock %}

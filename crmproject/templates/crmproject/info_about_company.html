@@ -58,16 +58,14 @@
                 <div class="list-group mb-2">
                     <a href="{% url 'about_project' pk=project.id %}"
                         {% if project.status == '1' %}
-                            style="height: 120px; background-color: #EEFFF4; font-size: 16px;"
+                            style="background-color: #EEFFF4; font-size: 20px;"
                         {% elif project.status == '2'%}
-                            style="height: 120px; background-color: #FFFFDF; font-size: 16px;"
+                            style="background-color: #FFFFDF; font-size: 20px;"
                         {% else %}
-                            style="height: 120px; background-color: #FFDCCB; font-size: 16px;"
+                            style="background-color: #FFDCCB; font-size: 20px;"
                         {% endif %}
                        class="list-group-item shadow m-1 text-center">
-                        <p><span class="text-decoration-underline">Project name:</span> <span class="text-uppercase">{{ project.name }}</span></p>
-                        <p><span class="text-decoration-underline">Start date:</span> <span style="font-size: 14px;">{{ project.date_start|date:"SHORT_DATE_FORMAT" }}</span></p>
-                        <p><span class="text-decoration-underline">End date:</span> <span style="font-size: 14px;">{{ project.date_end|date:"SHORT_DATE_FORMAT" }}</span></p>
+                        <p><span class="text-uppercase">&#171; {{ project.name }} &#187;</span></p>
                     </a>
                 </div>
         {% endfor %}

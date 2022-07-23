@@ -2,7 +2,7 @@ from django import forms
 from django.core.exceptions import ValidationError
 from django.forms import inlineformset_factory
 
-from crmproject.models import Company, Phone, Email, Project
+from crmproject.models import Company, Phone, Email, Project, Interaction
 from users.models import User
 
 
@@ -112,3 +112,13 @@ class UpdateProjectForm(forms.ModelForm):
     class Meta:
         model = Project
         fields = ['name', 'date_end', 'price', 'status', 'description']
+
+
+class CreateInteractionForm(forms.ModelForm):
+    """
+    Form for Create interaction on project
+    """
+
+    class Meta:
+        model = Interaction
+        fields = ['communication_method', 'rating', 'description']

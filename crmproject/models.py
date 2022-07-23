@@ -71,3 +71,27 @@ class Project(models.Model):
 
     def __str__(self):
         return f'Project: {self.name} | Company: {self.company}'
+
+
+class Interaction(models.Model):
+    """
+    Model for interaction on project
+    """
+    communication_options = (
+        ('1', 'Request'),
+        ('2', 'Letter'),
+        ('3', 'Website'),
+        ('4', 'Company initiative')
+    )
+    rating_options = (
+        ('1', 'Unacceptable'),
+        ('2', 'Weak'),
+        ('3', 'Good'),
+        ('4', 'Very good'),
+        ('5', 'Excellent')
+    )
+    project = models.ForeignKey(Project, on_delete=models.CASCADE)
+    communication_method = models.CharField(max_length=1, choices=communication_options)
+    manager = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
+    description = RichTextField(max_length=200, blank=False, null=False)
+    rating = models.CharField(max_length=1, choices=rating_options)

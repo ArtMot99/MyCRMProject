@@ -1,0 +1,9 @@
+{% if  interaction.communication_method == '1' %}
+    <p><span>&#171; Request &#187;</span></p>
+{% elif  interaction.communication_method == '2' %}
+    <p><span>&#171; Letter &#187;</span></p>
+{% elif  interaction.communication_method == '3' %}
+    <p><span>&#171; Website &#187;</span></p>
+{% else %}
+    <p><span>&#171; Company initiative &#187;</span></p>
+{% endif %}

@@ -1,0 +1,11 @@
+{% if interaction.rating == '1' %}
+    <p><span style="">&#9734;</span></p>
+{% elif interaction.rating == '2' %}
+    <p><span style="">&#9734;&#9734;</span></p>
+{% elif interaction.rating == '3' %}
+    <p><span style="">&#9734;&#9734;&#9734;</span></p>
+{% elif interaction.rating == '4' %}
+    <p><span style="">&#9734;&#9734;&#9734;&#9734;</span></p>
+{% else %}
+    <p><span style="">&#9734;&#9734;&#9734;&#9734;&#9734;</span></p>
+{% endif %}

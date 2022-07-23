@@ -1,19 +1,24 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-2" style="background-image: var(--bs-gradient);">
     <div class="collapse navbar-collapse" id="navbarNav" style="">
-        <ul class="navbar-nav" style="position: relative; left: 420px">
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'profile' pk=user.id %}">My account</a>
+        <ul class="navbar-nav" style="position: relative; left: 435px">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Manager Panel
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="{% url 'profile' pk=user.id %}">My account</a>
+                    <a class="dropdown-item" href="{% url 'create_company' %}">Add company</a>
+{#                    <a class="dropdown-item" href="#">Something else here</a>#}
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{% url 'index' %}">Company list</a>
             </li>
-            <li>
-                <a class="nav-link" href="{% url 'create_company' %}">Add company</a>
-            </li>
             {% if user.is_authenticated %}
-            <li class="nav-item">
-                <a class="nav-link" href="{% url 'logout' %}">Logout (<span class="text-success">{{ user }}</span>)</a>
-            </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout' %}">Logout (<span class="text-success">{{ user }}</span>)</a>
+                </li>
             {% endif %}
         </ul>
     </div>

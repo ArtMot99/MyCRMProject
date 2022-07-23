@@ -231,7 +231,7 @@ class UpdateProjectView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
 
 
-# TODO problem with success_url method(need redirect to project:pk)
+# TODO problem with success_url method(need redirect to info:pk)
 class DeleteProjectView(LoginRequiredMixin, DeleteView):
     """
     View for delete project information

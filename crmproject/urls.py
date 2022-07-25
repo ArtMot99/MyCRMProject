@@ -6,6 +6,7 @@ profile_urls = [
     path('', views.MyProfileView.as_view(), name='profile'),
     path('update/', views.UpdateProfileView.as_view(), name='update_profile'),
     path('delete/', views.DeleteProfileView.as_view(), name='delete_profile'),
+    path('my_interaction/', views.InfoAboutMyInteraction.as_view(), name='my_interaction'),
 ]
 
 
@@ -28,7 +29,7 @@ projects_urls = [
 urlpatterns = [
     path('', views.AllCompanyView.as_view(), name='index'),
     path('info/<int:pk>/', include(company_urls)),
-    path('profile/<int:pk>/', include(profile_urls)),
+    path('profile/', include(profile_urls)),
     path('project/<int:pk>/', include(projects_urls)),
     path('create_company/', views.CreateCompanyView.as_view(), name='create_company'),
     path('interaction/<int:pk>/', views.AboutInteractionView.as_view(), name='about_interaction'),

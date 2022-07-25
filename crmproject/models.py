@@ -70,7 +70,7 @@ class Project(models.Model):
         ordering = ('name',)
 
     def __str__(self):
-        return f'Project: {self.name} | Company: {self.company}'
+        return f'{self.company} | {self.name}'
 
 
 class Interaction(models.Model):

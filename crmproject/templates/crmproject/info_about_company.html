@@ -50,9 +50,9 @@
     {% if company.project_set.all %}
         {% include 'includes/add_project_button.html' %}
 
-        {% for project in company.project_set.all %}
+        {% for project in object_list %}
                 <div class="list-group mb-2">
-                    <a href="{% url 'about_project' pk=project.id %}"
+                    <a href="{% url 'about_project' pk=project.pk %}"
                         {% if project.status == '1' %}
                             style="background-color: #EEFFF4; font-size: 20px;"
                         {% elif project.status == '2'%}
@@ -71,5 +71,5 @@
         <p class="text-center">This company has not completed any projects yet and has no projects in development</p>
     {% endif %}
 
-{#    {% include 'includes/paginate.html' %}#}
+    {% include 'includes/paginate.html' %}
 {% endblock %}

@@ -14,26 +14,26 @@
 
     <div class="d-inline-block rounded-5 mx-auto d-block" style="width: 50%; height: 430px; background-color: #F5F5F5">
         <div style="position: relative; left: 350px; margin-top: 10px; font-size: 18px">
-            <p><span class="h6">First name:</span> <span style="color: #808000">{{ users.first_name }}</span></p>
-            <p><span class="h6">Last name:</span> <span style="color: #808000">{{ users.last_name }}</span></p>
-            <p><span class="h6">Username:</span> <span style="color: #808000">{{ users.username }}</span></p>
-            <p><span class="h6">Birthday:</span> <span style="color: #808000">{{ users.birthday }}</span></p>
-            <p><span class="h6">Location:</span> <span style="color: #808000">{{ users.location }}</span></p>
-            <p><span class="h6">Email:</span> <span style="color: #808000">{{ users.email }}</span></p>
-            <p><span class="h6">Staff:</span> <span style="color: #808000">{{ users.is_staff }}</span></p>
-            <p><span class="h6">Date joined:</span> <span style="color: #808000">{{ users.date_joined }}</span></p>
+            <p><span class="h6">First name:</span> <span style="color: #808000">{{ user.first_name }}</span></p>
+            <p><span class="h6">Last name:</span> <span style="color: #808000">{{ user.last_name }}</span></p>
+            <p><span class="h6">Username:</span> <span style="color: #808000">{{ user.username }}</span></p>
+            <p><span class="h6">Birthday:</span> <span style="color: #808000">{{ user.birthday }}</span></p>
+            <p><span class="h6">Location:</span> <span style="color: #808000">{{ user.location }}</span></p>
+            <p><span class="h6">Email:</span> <span style="color: #808000">{{ user.email }}</span></p>
+            <p><span class="h6">Staff:</span> <span style="color: #808000">{{ user.is_staff }}</span></p>
+            <p><span class="h6">Date joined:</span> <span style="color: #808000">{{ user.date_joined }}</span></p>
         </div>
-        {% thumbnail users.photo '330x430' crop='center' as im %}
+        {% thumbnail user.photo '330x430' crop='center' as im %}
             <img class="rounded-5" style="position: absolute; top: 195px;" src="{{ im.url }}" alt="Person Photo">
         {% endthumbnail %}
 
             <a class="btn mb-3 btn-warning btn-sm" role="button"
                style="position: relative; width: 9rem; left: 410px;"
-               href="{% url 'update_profile' pk=users.id%}">Update</a>
+               href="{% url 'update_profile' %}">Update</a>
 
             <a class="btn mb-3 btn-danger btn-sm" role="button"
                style="position: relative; width: 9rem; left: 262px; top: 40px;"
-               href="{% url 'delete_profile' pk=users.id%}">Delete</a>
+               href="{% url 'delete_profile' %}">Delete</a>
 
     </div>
 

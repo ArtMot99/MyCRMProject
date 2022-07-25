@@ -30,9 +30,12 @@ ALLOWED_HOSTS = []
 # Application definition
 
 DEVELOPED_APPS = [
-    "debug_toolbar",
     'users',
     'crmproject',
+]
+
+THIRDPARTY_APPS = [
+    "debug_toolbar",
     'sorl.thumbnail',
     'ckeditor',
 ]
@@ -44,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-] + DEVELOPED_APPS
+] + THIRDPARTY_APPS + DEVELOPED_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

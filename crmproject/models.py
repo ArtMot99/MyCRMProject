@@ -95,3 +95,7 @@ class Interaction(models.Model):
     manager = models.ForeignKey(get_user_model(), on_delete=models.CASCADE)
     description = RichTextField(max_length=200, blank=False, null=False)
     rating = models.CharField(max_length=1, choices=rating_options)
+    publication_date = models.DateTimeField(auto_now_add=True, blank=False, null=False)
+
+    def __str__(self):
+        return f'Feedback: {self.manager}'

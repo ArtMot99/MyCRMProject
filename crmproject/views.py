@@ -1,10 +1,8 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
-# from django.core.paginator import Paginator
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
-from django.views.generic.detail import SingleObjectMixin
-
+from django.views.generic.detail import SingleObjectMixin, DetailView
 from crmproject.forms import FormUpdateProfile, CreateCompanyForm, CompanyPhoneFormSet, \
     CompanyEmailFormSet, CompanyPhoneForUpdate, CompanyEmailForUpdate, UpdateCompanyForm, CreateProjectForm, \
     UpdateProjectForm, CreateInteractionForm
@@ -12,22 +10,15 @@ from crmproject.models import Company, Project, Interaction
 from users.models import User
 
 
-class MyProfileView(LoginRequiredMixin, SingleObjectMixin, ListView):
+class MyProfileView(LoginRequiredMixin, DetailView):
     """
     View for view the user's personal settings
     """
     model = User
     template_name = 'crmproject/profile.html'
-    paginate_by = 5
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=User.objects.all())
-        return super().get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['users'] = self.object
-        return context
+    def get_object(self, queryset=None):
+        return self.request.user
 
 
 class UpdateProfileView(LoginRequiredMixin, UpdateView):
@@ -37,12 +28,12 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     template_name = 'crmproject/update_profile.html'
     model = User
     form_class = FormUpdateProfile
-    success_url = reverse_lazy('index')
 
-    def form_valid(self, form):
-        form.instance.user = self.request.user
-        form.save()
-        return super().form_valid(form)
+    def get_object(self, queryset=None):
+        return self.request.user
+
+    def get_success_url(self):
+        return reverse_lazy('profile')
 
 
 class DeleteProfileView(DeleteView):
@@ -50,8 +41,27 @@ class DeleteProfileView(DeleteView):
     View for delete user
     """
     model = User
-    success_url = reverse_lazy('index')
+    success_url = reverse_lazy('home')
     template_name = 'crmproject/profile_delete.html'
+
+    def get_object(self, queryset=None):
+        return self.request.user
+
+
+class InfoAboutMyInteraction(LoginRequiredMixin, SingleObjectMixin, ListView):
+    """
+    View for show my interactions
+    """
+    model = Interaction
+    template_name = 'crmproject/my_interaction.html'
+    paginate_by = 5
+
+    def get(self, request, *args, **kwargs):
+        self.object = Interaction.objects.all()
+        return super().get(request, *args, **kwargs)
+
+    def get_queryset(self):
+        return Interaction.objects.filter(manager=self.request.user)
 
 
 class AllCompanyView(LoginRequiredMixin, ListView):
@@ -63,27 +73,28 @@ class AllCompanyView(LoginRequiredMixin, ListView):
     context_object_name = 'companys'
     paginate_by = 6
 
+    # def get_ordering(self):
+    #     ordering = self.request.GET.get('sort', 'a')
+    #     if ordering == 'a':
+    #         return 'name_of_company'
+    #     else:
+    #         return '-name_of_company'
 
-# TODO Don't work pagination(show all queryset objects)
+
 class InfoAboutCompanyView(LoginRequiredMixin, SingleObjectMixin, ListView):
     """
     View for view detailed information about the company
     """
-    model = Company
+    model = Project
     template_name = 'crmproject/info_about_company.html'
-    # paginate_by = 3
+    paginate_by = 3
 
     def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=Company.objects.all())
+        self.object = Company.objects.get(pk=self.kwargs['pk'])
         return super().get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['company'] = self.object
-        return context
-
-    # def get_queryset(self):
-    #     return self.object.project_set.all()
+    def get_queryset(self):
+        return Project.objects.filter(company=self.kwargs['pk'])
 
 
 class CreateCompanyView(LoginRequiredMixin, CreateView):
@@ -186,17 +197,16 @@ class ProjectInfoView(LoginRequiredMixin, SingleObjectMixin, ListView):
     """
     View for view detailed information about the projects
     """
-    model = Project
+    model = Interaction
     template_name = 'crmproject/info_about_project.html'
+    paginate_by = 3
 
     def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=Project.objects.all())
+        self.object = Project.objects.get(pk=self.kwargs['pk'])
         return super().get(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['project'] = self.object
-        return context
+    def get_queryset(self):
+        return Interaction.objects.filter(project=self.kwargs['pk'])
 
 
 class CreateProjectView(LoginRequiredMixin, CreateView):
@@ -231,7 +241,6 @@ class UpdateProjectView(LoginRequiredMixin, UpdateView):
         return reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
 
 
-# TODO problem with success_url method(need redirect to info:pk)
 class DeleteProjectView(LoginRequiredMixin, DeleteView):
     """
     View for delete project information
@@ -240,24 +249,15 @@ class DeleteProjectView(LoginRequiredMixin, DeleteView):
     template_name = 'crmproject/project_delete.html'
 
     def get_success_url(self):
-        return reverse_lazy('index')
+        return reverse_lazy('info', kwargs={'pk': self.object.company_id})
 
 
-class AboutInteractionView(LoginRequiredMixin, SingleObjectMixin, ListView):
+class AboutInteractionView(LoginRequiredMixin, DetailView):
     """
     View for view detailed information about interaction
     """
     model = Interaction
     template_name = 'crmproject/info_about_interaction.html'
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object(queryset=Interaction.objects.all())
-        return super().get(request, *args, **kwargs)
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['interaction'] = self.object
-        return context
 
 
 class CreateInteractionView(LoginRequiredMixin, CreateView):

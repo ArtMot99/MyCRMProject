@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+
+{% block title %}
+    My interaction
+{% endblock %}
+
+
+{% block content %}
+    {% include 'includes/header.html' %}
+
+    {% include 'includes/finaly_navbar.html' %}
+
+    {% for interaction in object_list %}
+            <div class="list-group mb-2">
+                <a href="{% url 'about_interaction' pk=interaction.pk %}" style="background-color: #F7F9FF;"
+                   class="list-group-item shadow m-1 text-center">
+                    <p><span>{{ interaction.project }}</span></p>
+                    {% include 'includes/communication method.html' %}
+                    {% include 'includes/rating.html' %}
+                    <p><span style="">{{ interaction.description|safe }}</span></p>
+                </a>
+            </div>
+    {% endfor %}
+
+    {% include 'includes/paginate.html' %}
+{% endblock %}

@@ -11,9 +11,12 @@
 
     {% include 'includes/finaly_navbar.html' %}
 
+{#    <a href="?sort=a">alf</a>#}
+{#    <a href="?sort=-a">-alf</a>#}
+
     {% for company in companys %}
         <div class="list-group">
-            <a href="{% url 'info' pk=company.id %}"
+            <a href="{% url 'info' pk=company.pk %}"
                style="height: 70px; background-color: #F5F5F5; font-size: 24px;"
                class="list-group-item shadow m-1 text-center text-uppercase">
                 <p>&#171; {{ company.name_of_company }} &#187;</p>

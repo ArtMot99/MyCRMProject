@@ -48,11 +48,7 @@
 
     <h3 class="text-center mb-3">Company's projects</h3>
     {% if company.project_set.all %}
-        {% if user.is_staff and user == company.user%}
-            <a class="btn mb-3 btn-info btn-sm" role="button"
-           style="position: relative; width: 9rem; left: 570px;"
-           href="{% url 'create_project' pk=company.id%}">Add project</a>
-        {% endif %}
+        {% include 'includes/add_project_button.html' %}
 
         {% for project in company.project_set.all %}
                 <div class="list-group mb-2">
@@ -70,11 +66,7 @@
                 </div>
         {% endfor %}
     {% else %}
-        {% if user.is_staff and user == company.user%}
-            <a class="btn mb-3 btn-info btn-sm" role="button"
-           style="position: relative; width: 9rem; left: 570px;"
-           href="{% url 'create_project' pk=company.id%}">Add project</a>
-        {% endif %}
+        {% include 'includes/add_project_button.html' %}
 
         <p class="text-center">This company has not completed any projects yet and has no projects in development</p>
     {% endif %}

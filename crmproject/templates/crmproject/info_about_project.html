@@ -51,7 +51,8 @@
                    class="list-group-item shadow m-1 text-center">
                     {% include 'includes/communication method.html' %}
                     {% include 'includes/rating.html' %}
-                    <p><span style="">{{ interaction.description|safe }}</span></p>
+                    <p>{{ interaction.description|safe }}</p>
+                    <p><span style="font-size: 14px;">{{ interaction.publication_date|date:"D d.m.y H:i" }}</span></p>
                 </a>
             </div>
         {% endfor %}

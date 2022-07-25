@@ -18,6 +18,13 @@ class MyProfileView(LoginRequiredMixin, DetailView):
     template_name = 'crmproject/profile.html'
 
     def get_object(self, queryset=None):
+        """
+        Redefinition method
+
+
+        :param queryset: None
+        :return: self.request.user
+        """
         return self.request.user
 
 
@@ -30,9 +37,21 @@ class UpdateProfileView(LoginRequiredMixin, UpdateView):
     form_class = FormUpdateProfile
 
     def get_object(self, queryset=None):
+        """
+        Redefinition method
+
+        :param queryset: None
+        :return: self.request.user
+        """
         return self.request.user
 
     def get_success_url(self):
+        """
+        Redefinition method
+
+        After updating information about yourself, the user will be redirected to profile
+        :return: reverse_lazy('profile')
+        """
         return reverse_lazy('profile')
 
 
@@ -45,10 +64,16 @@ class DeleteProfileView(DeleteView):
     template_name = 'crmproject/profile_delete.html'
 
     def get_object(self, queryset=None):
+        """
+        Redefinition method
+
+        :param queryset: None
+        :return: self.request.user
+        """
         return self.request.user
 
 
-class InfoAboutMyInteraction(LoginRequiredMixin, SingleObjectMixin, ListView):
+class InfoAboutMyInteractionView(LoginRequiredMixin, SingleObjectMixin, ListView):
     """
     View for show my interactions
     """
@@ -57,10 +82,25 @@ class InfoAboutMyInteraction(LoginRequiredMixin, SingleObjectMixin, ListView):
     paginate_by = 5
 
     def get(self, request, *args, **kwargs):
+        """
+        Redefinition method
+
+        Get a queryset of all interactions into a variable 'self.object'
+        :param request: request
+        :param args: *
+        :param kwargs: **
+        :return: super().get(request, *args, **kwargs)
+        """
         self.object = Interaction.objects.all()
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
+        """
+        Redefinition method
+
+        Filtering and showing the user a list of his interactions
+        :return: Interaction.objects.filter(manager=self.request.user)
+        """
         return Interaction.objects.filter(manager=self.request.user)
 
 
@@ -90,10 +130,25 @@ class InfoAboutCompanyView(LoginRequiredMixin, SingleObjectMixin, ListView):
     paginate_by = 3
 
     def get(self, request, *args, **kwargs):
+        """
+        Redefinition method
+
+        In a variable self.object we get queryset
+        :param request: request
+        :param args: *
+        :param kwargs: **
+        :return: super().get(request, *args, **kwargs)
+        """
         self.object = Company.objects.get(pk=self.kwargs['pk'])
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
+        """
+        Redefinition method
+
+        We get a queryset with filtered projects for each company
+        :return: Project.objects.filter(company=self.kwargs['pk'])
+        """
         return Project.objects.filter(company=self.kwargs['pk'])
 
 
@@ -107,6 +162,13 @@ class CreateCompanyView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy('index')
 
     def get_context_data(self, **kwargs):
+        """
+        Redefinition method
+
+        The method displays 2 additional forms for adding phone numbers and email addresses
+        :param kwargs: **
+        :return: context
+        """
         context = super().get_context_data(**kwargs)
         if self.request.POST:
             contact_phone = CompanyPhoneFormSet(self.request.POST)
@@ -123,6 +185,13 @@ class CreateCompanyView(LoginRequiredMixin, CreateView):
         return context
 
     def form_valid(self, form):
+        """
+        Redefinition method
+
+        Checking forms for validity
+        :param form: form
+        :return: super().form_valid(form)
+        """
         form.instance.user = self.request.user
         contact_phone = CompanyPhoneFormSet(self.request.POST)
         contact_email = CompanyEmailFormSet(self.request.POST)
@@ -147,14 +216,33 @@ class UpdateCompanyView(UserPassesTestMixin, UpdateView):
     form_class = UpdateCompanyForm
 
     def get_success_url(self):
+        """
+        Redefinition method
+
+        After updating the company information, the user will be redirected to the company information page
+        :return: reverse_lazy('info', kwargs={'pk': self.kwargs['pk']})
+        """
         return reverse_lazy('info', kwargs={'pk': self.kwargs['pk']})
 
     def test_func(self):
+        """
+        Redefinition method
+
+        Only the user who created the company can update information about it
+        :return: True or False
+        """
         if self.request.user != self.get_object(queryset=Company.objects.all()).user:
             return False
         return True
 
     def get_context_data(self, **kwargs):
+        """
+        Redefinition method
+
+        Shows the user data from the database in forms to update information about companies
+        :param kwargs: **
+        :return: context
+        """
         context = super().get_context_data(**kwargs)
         if self.request.POST:
             contact_phone = CompanyPhoneForUpdate(self.request.POST, instance=self.object)
@@ -171,6 +259,13 @@ class UpdateCompanyView(UserPassesTestMixin, UpdateView):
         return context
 
     def form_valid(self, form):
+        """
+        Redefinition method
+
+        Checking forms for validity
+        :param form: form
+        :return: super().form_valid(form)
+        """
         form.instance.user = self.request.user
         contact_phone = CompanyPhoneForUpdate(self.request.POST, instance=self.object)
         contact_email = CompanyEmailForUpdate(self.request.POST, instance=self.object)
@@ -202,10 +297,25 @@ class ProjectInfoView(LoginRequiredMixin, SingleObjectMixin, ListView):
     paginate_by = 3
 
     def get(self, request, *args, **kwargs):
+        """
+        Redefinition method
+
+        In a variable self.object we get queryset
+        :param request: request
+        :param args: *
+        :param kwargs: **
+        :return: super().get(request, *args, **kwargs)
+        """
         self.object = Project.objects.get(pk=self.kwargs['pk'])
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
+        """
+        Redefinition method
+
+        We get a queryset with filtered interactions for each project
+        :return: Project.objects.filter(company=self.kwargs['pk'])
+        """
         return Interaction.objects.filter(project=self.kwargs['pk'])
 
 
@@ -218,9 +328,22 @@ class CreateProjectView(LoginRequiredMixin, CreateView):
     template_name = 'crmproject/create_project.html'
 
     def get_success_url(self):
+        """
+        Redefinition method
+
+        After creating the project, the user will be redirected to the page for viewing information about the company
+        :return: reverse_lazy('info', kwargs={'pk': self.kwargs['pk']})
+        """
         return reverse_lazy('info', kwargs={'pk': self.kwargs['pk']})
 
     def form_valid(self, form):
+        """
+        Redefinition method
+
+        Checking forms for validity
+        :param form: form
+        :return: super().form_valid(form)
+        """
         f = form.save(commit=False)
         f.user = self.request.user
         company = get_object_or_404(Company, pk=self.kwargs['pk'])
@@ -238,6 +361,13 @@ class UpdateProjectView(LoginRequiredMixin, UpdateView):
     template_name = 'crmproject/update_project.html'
 
     def get_success_url(self):
+        """
+        Redefinition method
+
+        After updating the information about the project,
+        the user will be redirected to the page for viewing information about the project
+        :return: reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
+        """
         return reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
 
 
@@ -249,6 +379,12 @@ class DeleteProjectView(LoginRequiredMixin, DeleteView):
     template_name = 'crmproject/project_delete.html'
 
     def get_success_url(self):
+        """
+        Redefinition method
+
+        After deleted project, the user will be redirected to the page for viewing information about the company
+        :return: reverse_lazy('info', kwargs={'pk': self.object.company_id})
+        """
         return reverse_lazy('info', kwargs={'pk': self.object.company_id})
 
 
@@ -269,9 +405,22 @@ class CreateInteractionView(LoginRequiredMixin, CreateView):
     template_name = 'crmproject/create_interaction.html'
 
     def get_success_url(self):
+        """
+        Redefinition method
+
+        After adding the interaction, the user will be redirected to the page for viewing information about the project
+        :return: reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
+        """
         return reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
 
     def form_valid(self, form):
+        """
+        Redefinition method
+
+        Checking forms for validity
+        :param form: form
+        :return: super().form_valid(form)
+        """
         f = form.save(commit=False)
         f.manager = self.request.user
         project = get_object_or_404(Project, pk=self.kwargs['pk'])

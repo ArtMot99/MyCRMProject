@@ -6,7 +6,7 @@ profile_urls = [
     path('', views.MyProfileView.as_view(), name='profile'),
     path('update/', views.UpdateProfileView.as_view(), name='update_profile'),
     path('delete/', views.DeleteProfileView.as_view(), name='delete_profile'),
-    path('my_interaction/', views.InfoAboutMyInteraction.as_view(), name='my_interaction'),
+    path('my_interaction/', views.InfoAboutMyInteractionView.as_view(), name='my_interaction'),
 ]
 
 

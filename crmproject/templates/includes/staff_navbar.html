@@ -7,8 +7,8 @@
                     Manager Panel
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="{% url 'profile' pk=user.id %}">My account</a>
-                    <a class="dropdown-item" href="">My interactions</a>
+                    <a class="dropdown-item" href="{% url 'profile' %}">My account</a>
+                    <a class="dropdown-item" href="{% url 'my_interaction' %}">My interactions</a>
                     <a class="dropdown-item" href="{% url 'create_company' %}">Add company</a>
                 </div>
             </li>

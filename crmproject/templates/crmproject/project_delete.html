@@ -8,7 +8,7 @@
     {% include 'includes/finaly_navbar.html' %}
 
     <div class="text-center">
-        <form method="post">
+        <form method="post" action="{% url 'delete_project' pk=object.pk %}?next={% url 'info' pk=object.company.pk %}">
             {% csrf_token %}
             <h4>Are you sure you want to delete project: "<span class="text-danger">{{ project.name }}</span>"?</h4><br>
             <input class="btn mb-3 btn-success btn-sm" role="button" style="width: 7rem" type="submit" value="Confirm"><br>

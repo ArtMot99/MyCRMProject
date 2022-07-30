@@ -27,11 +27,11 @@
     {% if user.is_staff and user == project.user%}
     <a class="btn mb-3 btn-warning btn-sm" role="button"
        style="position: relative; width: 9rem; left: 493px;"
-       href="{% url 'update_project' pk=project.id%}">Update project</a>
+       href="{% url 'update_project' pk=project.company.pk project_pk=project.pk %}">Update project</a>
 
     <a class="btn mb-3 btn-danger btn-sm" role="button"
        style="position: relative; width: 9rem; left: 493px;"
-       href="{% url 'delete_project' pk=project.id%}">Delete project</a>
+       href="{% url 'delete_project' pk=project.company.pk project_pk=project.pk %}">Delete project</a>
     {% endif %}
 
     {% if user.is_staff %}
@@ -40,14 +40,14 @@
     </div>
         <a class="btn mb-3 btn-info btn-sm" role="button"
            style="position: relative; width: 9rem; left: 570px;"
-           href="{% url 'create_interaction' pk=project.id%}">Add feedback</a>
+           href="{% url 'create_interaction' pk=project.company.pk project_pk=project.pk %}">Add feedback</a>
 
     {% if not project.interaction_set.all %}
         <p class="text-center">The company currently has no reviews.</p>
     {% else %}
         {% for interaction in object_list %}
             <div class="list-group mb-2">
-                <a href="{% url 'about_interaction' pk=interaction.id %}" style="background-color: #F7F9FF;"
+                <a href="{{ interaction.get_absolute_url }}" style="background-color: #F7F9FF;"
                    class="list-group-item shadow m-1 text-center">
                     {% include 'includes/communication method.html' %}
                     {% include 'includes/rating.html' %}
@@ -56,8 +56,8 @@
                 </a>
             </div>
         {% endfor %}
+        {% include 'includes/paginate.html' %}
     {% endif %}
     {% endif %}
 
-    {% include 'includes/paginate.html' %}
 {% endblock %}

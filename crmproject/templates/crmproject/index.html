@@ -17,9 +17,16 @@
     {% for company in companys %}
         <div class="list-group">
             <a href="{% url 'info' pk=company.pk %}"
-               style="height: 70px; background-color: #F5F5F5; font-size: 24px;"
+               style="background-color: #F5F5F5; font-size: 24px;"
                class="list-group-item shadow m-1 text-center text-uppercase">
                 <p>&#171; {{ company.name_of_company }} &#187;</p>
+                {% if company.cnt > 1 %}
+                    <p style="font-size: 12px; color: #2e4053;">The company has <strong><em>{{ company.cnt }}</em></strong> projects </p>
+                {% elif company.cnt == 1 %}
+                    <p style="font-size: 12px; color: #2e4053;">The company has {{ company.cnt }} project </p>
+                {% else %}
+                    <p style="font-size: 12px; color: #2e4053;">The company has no projects yet </p>
+                {% endif %}
             </a>
         </div>
     {% endfor %}

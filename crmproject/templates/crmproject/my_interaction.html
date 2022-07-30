@@ -13,7 +13,7 @@
 
     {% for interaction in object_list %}
             <div class="list-group mb-2">
-                <a href="{% url 'about_interaction' pk=interaction.pk %}" style="background-color: #F7F9FF;"
+                <a href="{{ interaction.get_absolute_url }}" style="background-color: #F7F9FF;"
                    class="list-group-item shadow m-1 text-center">
                     <p><span>{{ interaction.project }}</span></p>
                     {% include 'includes/communication method.html' %}

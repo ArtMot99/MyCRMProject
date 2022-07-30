@@ -52,7 +52,7 @@
 
         {% for project in object_list %}
                 <div class="list-group mb-2">
-                    <a href="{% url 'about_project' pk=project.pk %}"
+                    <a href="{{ project.get_absolute_url }}"
                         {% if project.status == '1' %}
                             style="background-color: #EEFFF4; font-size: 20px;"
                         {% elif project.status == '2'%}
@@ -62,6 +62,13 @@
                         {% endif %}
                        class="list-group-item shadow m-1 text-center">
                         <p><span class="text-uppercase">&#171; {{ project.name }} &#187;</span></p>
+                        {% if project.cnt > 1 %}
+                            <p><span style="font-size: 13px; color: #2e4053;">There are <strong>{{ project.cnt }}</strong> interactions in total in the project</span></p>
+                        {% elif project.cnt == 1 %}
+                            <p><span style="font-size: 13px; color: #2e4053;">There is <strong>{{ project.cnt }}</strong> interaction in total in the project</span></p>
+                        {% else %}
+                            <p><span style="font-size: 13px; color: #2e4053;">The project has no interactions yet</span></p>
+                        {% endif %}
                     </a>
                 </div>
         {% endfor %}

@@ -1,5 +1,7 @@
 from django.contrib.auth import get_user_model
 from django.db import models
+from django.urls import reverse
+
 from users.models import User
 from ckeditor.fields import RichTextField
 
@@ -72,6 +74,10 @@ class Project(models.Model):
     def __str__(self):
         return f'{self.company} | {self.name}'
 
+    def get_absolute_url(self):
+        return reverse('about_project', kwargs={'pk': self.company.pk,
+                                                'project_pk': self.pk})
+
 
 class Interaction(models.Model):
     """
@@ -99,3 +105,8 @@ class Interaction(models.Model):
 
     def __str__(self):
         return f'Feedback: {self.manager}'
+
+    def get_absolute_url(self):
+        return reverse('about_interaction', kwargs={'pk': self.project.company.pk,
+                                                    'project_pk': self.project.pk,
+                                                    'interaction_pk': self.pk})

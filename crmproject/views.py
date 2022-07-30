@@ -1,4 +1,5 @@
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.urls import reverse_lazy
 from django.views.generic import ListView, UpdateView, DeleteView, CreateView
@@ -120,6 +121,11 @@ class AllCompanyView(LoginRequiredMixin, ListView):
     #     else:
     #         return '-name_of_company'
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        qs = qs.annotate(cnt=Count('project'))
+        return qs
+
 
 class InfoAboutCompanyView(LoginRequiredMixin, SingleObjectMixin, ListView):
     """
@@ -143,13 +149,9 @@ class InfoAboutCompanyView(LoginRequiredMixin, SingleObjectMixin, ListView):
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
-        """
-        Redefinition method
-
-        We get a queryset with filtered projects for each company
-        :return: Project.objects.filter(company=self.kwargs['pk'])
-        """
-        return Project.objects.filter(company=self.kwargs['pk'])
+        qs = Project.objects.all()
+        qs = qs.annotate(cnt=Count('interaction'))
+        return qs
 
 
 class CreateCompanyView(LoginRequiredMixin, CreateView):
@@ -306,7 +308,7 @@ class ProjectInfoView(LoginRequiredMixin, SingleObjectMixin, ListView):
         :param kwargs: **
         :return: super().get(request, *args, **kwargs)
         """
-        self.object = Project.objects.get(pk=self.kwargs['pk'])
+        self.object = Project.objects.get(pk=self.kwargs['project_pk'])
         return super().get(request, *args, **kwargs)
 
     def get_queryset(self):
@@ -314,9 +316,9 @@ class ProjectInfoView(LoginRequiredMixin, SingleObjectMixin, ListView):
         Redefinition method
 
         We get a queryset with filtered interactions for each project
-        :return: Project.objects.filter(company=self.kwargs['pk'])
+        :return: Project.objects.filter(company=self.kwargs['project_pk'])
         """
-        return Interaction.objects.filter(project=self.kwargs['pk'])
+        return Interaction.objects.filter(project=self.kwargs['project_pk'])
 
 
 class CreateProjectView(LoginRequiredMixin, CreateView):
@@ -359,6 +361,7 @@ class UpdateProjectView(LoginRequiredMixin, UpdateView):
     model = Project
     form_class = UpdateProjectForm
     template_name = 'crmproject/update_project.html'
+    pk_url_kwarg = 'project_pk'
 
     def get_success_url(self):
         """
@@ -366,9 +369,9 @@ class UpdateProjectView(LoginRequiredMixin, UpdateView):
 
         After updating the information about the project,
         the user will be redirected to the page for viewing information about the project
-        :return: reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
+        :return: self.object.get_absolute_url()
         """
-        return reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
+        return self.object.get_absolute_url()
 
 
 class DeleteProjectView(LoginRequiredMixin, DeleteView):
@@ -377,6 +380,7 @@ class DeleteProjectView(LoginRequiredMixin, DeleteView):
     """
     model = Project
     template_name = 'crmproject/project_delete.html'
+    pk_url_kwarg = 'project_pk'
 
     def get_success_url(self):
         """
@@ -385,7 +389,7 @@ class DeleteProjectView(LoginRequiredMixin, DeleteView):
         After deleted project, the user will be redirected to the page for viewing information about the company
         :return: reverse_lazy('info', kwargs={'pk': self.object.company_id})
         """
-        return reverse_lazy('info', kwargs={'pk': self.object.company_id})
+        return reverse_lazy('info', kwargs={'pk': self.object.company.pk})
 
 
 class AboutInteractionView(LoginRequiredMixin, DetailView):
@@ -394,6 +398,7 @@ class AboutInteractionView(LoginRequiredMixin, DetailView):
     """
     model = Interaction
     template_name = 'crmproject/info_about_interaction.html'
+    pk_url_kwarg = 'interaction_pk'
 
 
 class CreateInteractionView(LoginRequiredMixin, CreateView):
@@ -409,9 +414,9 @@ class CreateInteractionView(LoginRequiredMixin, CreateView):
         Redefinition method
 
         After adding the interaction, the user will be redirected to the page for viewing information about the project
-        :return: reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
+        :return: self.object.project.get_absolute_url()
         """
-        return reverse_lazy('about_project', kwargs={'pk': self.kwargs['pk']})
+        return self.object.project.get_absolute_url()
 
     def form_valid(self, form):
         """
@@ -423,7 +428,7 @@ class CreateInteractionView(LoginRequiredMixin, CreateView):
         """
         f = form.save(commit=False)
         f.manager = self.request.user
-        project = get_object_or_404(Project, pk=self.kwargs['pk'])
+        project = get_object_or_404(Project, pk=self.kwargs['project_pk'])
         f.project = project
         f.save()
         return super().form_valid(form)

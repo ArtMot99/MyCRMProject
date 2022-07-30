@@ -23,7 +23,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.urls')),
     path('main/', include('crmproject.urls')),
-    path('__debug__/', include('debug_toolbar.urls')),
     path('favicon.ico', RedirectView.as_view(url='/static/favicon.ico')),
 ]
 

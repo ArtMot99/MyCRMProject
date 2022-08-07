@@ -22,7 +22,6 @@ class MyProfileView(LoginRequiredMixin, DetailView):
         """
         Redefinition method
 
-
         :param queryset: None
         :return: self.request.user
         """
@@ -432,3 +431,53 @@ class CreateInteractionView(LoginRequiredMixin, CreateView):
         f.project = project
         f.save()
         return super().form_valid(form)
+
+
+class UpdateInteractionView(LoginRequiredMixin, UpdateView):
+    """
+    View for Update interaction on project
+    """
+    model = Interaction
+    form_class = CreateInteractionForm
+    template_name = 'crmproject/create_interaction.html'
+    pk_url_kwarg = 'interaction_pk'
+
+    def get_success_url(self):
+        """
+        Redefinition method
+
+        After updated the interaction, the user will be redirected to the page for viewing information about the project
+        :return: self.object.project.get_absolute_url()
+        """
+        return self.object.project.get_absolute_url()
+
+    def form_valid(self, form):
+        """
+        Redefinition method
+
+        Checking forms for validity
+        :param form: form
+        :return: super().form_valid(form)
+        """
+        f = form.save(commit=False)
+        f.manager = self.request.user
+        project = get_object_or_404(Project, pk=self.kwargs['project_pk'])
+        f.project = project
+        f.save()
+        return super().form_valid(form)
+
+
+class DeleteInteractionView(LoginRequiredMixin, DeleteView):
+    model = Interaction
+    template_name = 'crmproject/interaction_delete.html'
+    pk_url_kwarg = 'interaction_pk'
+
+    def get_success_url(self):
+        """
+        Redefinition method
+
+        After deleted the interaction, the user will be redirected to the page for viewing information about the project
+        :return: self.object.project.get_absolute_url()
+        """
+        return reverse_lazy('about_project', kwargs={'pk': self.object.project.company.pk,
+                                                     'project_pk': self.object.project.pk})

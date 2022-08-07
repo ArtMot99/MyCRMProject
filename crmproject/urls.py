@@ -3,6 +3,13 @@ from django.urls import path, include
 from crmproject import views
 
 
+interaction_urls = [
+    path('', views.AboutInteractionView.as_view(), name='about_interaction'),
+    path('update/', views.UpdateInteractionView.as_view(), name='update_interaction'),
+    path('delete/', views.DeleteInteractionView.as_view(), name='delete_interaction'),
+]
+
+
 profile_urls = [
     path('', views.MyProfileView.as_view(), name='profile'),
     path('update/', views.UpdateProfileView.as_view(), name='update_profile'),
@@ -17,7 +24,7 @@ projects_urls = [
     path('create_interaction/', views.CreateInteractionView.as_view(), name='create_interaction'),
     path('update/', views.UpdateProjectView.as_view(), name='update_project'),
     path('delete/', views.DeleteProjectView.as_view(), name='delete_project'),
-    path('interaction/<int:interaction_pk>/', views.AboutInteractionView.as_view(), name='about_interaction'),
+    path('interaction/<int:interaction_pk>/', include(interaction_urls)),
 ]
 
 

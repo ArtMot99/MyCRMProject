@@ -10,10 +10,20 @@
     <div class="text-center">
         <p><span style="font-size: 14px;">{{ interaction.publication_date }}</span></p>
         <p><span style="font-size: 20px;">{{ interaction.project }}</span></p>
-        <p><span class="text-primary">{{ interaction.manager }}</span></p>
+        <p>Manager: <span class="text-primary">{{ interaction.manager }}</span></p>
         {% include 'includes/communication method.html' %}
         {% include 'includes/rating.html' %}
         <p style="font-size: 20px;">&#11015; Feedback &#11015; <span>{{ interaction.description|safe }}</span></p>
     </div>
+
+    {% if user.is_staff and user == interaction.project.company.user%}
+    <a class="btn mb-3 btn-warning btn-sm" role="button"
+       style="position: relative; width: 9rem; left: 493px;"
+       href="{% url 'update_interaction' pk=interaction.project.company.pk project_pk=interaction.project.pk interaction_pk=interaction.pk %}">Update</a>
+
+    <a class="btn mb-3 btn-danger btn-sm" role="button"
+       style="position: relative; width: 9rem; left: 493px;"
+       href="{% url 'delete_interaction' pk=interaction.project.company.pk project_pk=interaction.project.pk interaction_pk=interaction.pk %}">Delete</a>
+    {% endif %}
 
 {% endblock %}

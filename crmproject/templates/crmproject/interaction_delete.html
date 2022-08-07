@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title  %}Delete interaction{% endblock %}
+
+{% block content %}
+    {% include 'includes/header.html' %}
+
+    {% include 'includes/finaly_navbar.html' %}
+
+    <div class="text-center">
+        <form method="post"
+              action="{% url 'delete_interaction' pk=interaction.project.company.pk project_pk=interaction.project.pk interaction_pk=interaction.pk %}?next={% url 'about_project' pk=interaction.project.company.pk project_pk=interaction.project.pk %}">
+            {% csrf_token %}
+            <h4>Are you sure you want to delete feedback?</h4><br>
+            <input class="btn mb-3 btn-success btn-sm" role="button" style="width: 7rem" type="submit" value="Confirm"><br>
+            <a class="btn mb-3 btn-secondary btn-sm" role="button" style="width: 7rem"
+               href="{% url 'about_interaction' pk=interaction.project.company.pk project_pk=interaction.project.pk interaction_pk=interaction.pk %}">Back</a>
+        </form>
+    </div>
+{% endblock %}

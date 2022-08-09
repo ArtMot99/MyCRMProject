@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 
+{% load url_replace_tags %}
 
 {% block title %}
     Main page
@@ -11,8 +12,8 @@
 
     {% include 'includes/finaly_navbar.html' %}
 
-{#    <a href="?sort=a">alf</a>#}
-{#    <a href="?sort=-a">-alf</a>#}
+    <a class="text-success" href="?ordering=alf">sort_by_alphabet</a>
+    <a class="text-danger" href="?ordering=-alf">sort_by_-alphabet</a>
 
     {% for company in companys %}
         <div class="list-group">
@@ -31,5 +32,19 @@
         </div>
     {% endfor %}
 
-    {% include 'includes/paginate.html' %}
+    {% if is_paginated %}
+        <div class="pagination justify-content-center">
+            <span class="page-links">
+                {% if page_obj.has_previous %}
+                    <a href="?{% url_replace request 'page' page_obj.previous_page_number %}">Preview</a>
+                {% endif %}
+                <span class="page-current">
+                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                    <a href="?{% url_replace request 'page' page_obj.next_page_number %}">Next</a>
+                {% endif %}
+            </span>
+        </div>
+    {% endif %}
 {% endblock %}

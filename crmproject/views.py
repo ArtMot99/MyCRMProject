@@ -113,12 +113,12 @@ class AllCompanyView(LoginRequiredMixin, ListView):
     context_object_name = 'companys'
     paginate_by = 6
 
-    # def get_ordering(self):
-    #     ordering = self.request.GET.get('sort', 'a')
-    #     if ordering == 'a':
-    #         return 'name_of_company'
-    #     else:
-    #         return '-name_of_company'
+    def get_ordering(self):
+        ordering = self.request.GET.get('ordering', 'alf')
+        if ordering == 'alf':
+            return 'name_of_company'
+        else:
+            return '-name_of_company'
 
     def get_queryset(self):
         qs = super().get_queryset()
